@@ -1,0 +1,49 @@
+{
+  "generator-ngx-rocket": {
+    "version": "7.1.0",
+    "props": {
+      "location": "path",
+      "strict": false,
+      "skipInstall": false,
+      "skipQuickstart": false,
+      "initGit": true,
+      "appName": "Currency",
+      "target": ["web"],
+      "pwa": true,
+      "ui": "bootstrap",
+      "auth": true,
+      "lazy": true,
+      "angulartics": false,
+      "tools": ["prettier", "hads"],
+      "utility": ["lodash", "moment"],
+      "projectName": "currency",
+      "packageManager": "npm",
+      "mobile": [],
+      "desktop": []
+    }
+  },
+  "generator-addon-firebase": {
+    "version": "2.0.0",
+    "props": {
+      "firebaseDeploy": false,
+      "appName": "Currency",
+      "projectName": "currency",
+      "packageManager": "npm",
+      "location": "path",
+      "strict": false,
+      "skipInstall": false,
+      "skipQuickstart": false,
+      "initGit": true,
+      "target": ["web"],
+      "pwa": true,
+      "ui": "bootstrap",
+      "auth": true,
+      "lazy": true,
+      "angulartics": false,
+      "tools": ["prettier", "hads"],
+      "utility": ["lodash", "moment"],
+      "mobile": [],
+      "desktop": []
+    }
+  }
+}

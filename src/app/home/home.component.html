@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="jumbotron text-center">
+    <h1>
+      <span translate>Foreign Exchange Currency</span>
+    </h1>
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <div class="wrap_currency" [hidden]="isLoading">
+      <div class="header-box">
+        <div class="title">
+          USD - United States Dollars
+        </div>
+        <div class="select-curr">
+          <div class="sub bold">USD</div>
+          <div class="value">
+            <input class="bold" type="text" [(ngModel)]="inputValue" />
+          </div>
+        </div>
+      </div>
+      <div class="list-data" *ngIf="dataCurrency">
+        <div class="list-item">
+          <div>
+            <button type="button" class="close">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <div class="data-title">
+              <span class="data-name">IDR</span>
+              <span class="data-value">{{ dataCurrency.rates.IDR * inputValue | number }}</span>
+            </div>
+            <div class="desc">
+              <div class="text">IDR - Indonesia Rupiah</div>
+              <div class="curr">1 USD = {{ dataCurrency.rates.IDR }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div>
+            <button type="button" class="close">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <div class="data-title">
+              <span class="data-name">EUR</span>
+              <span class="data-value">{{ dataCurrency.rates.EUR * inputValue | number }}</span>
+            </div>
+            <div class="desc">
+              <div class="text">EUR - Euro</div>
+              <div class="curr">1 USD = {{ dataCurrency.rates.EUR }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div>
+            <button type="button" class="close">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <div class="data-title">
+              <span class="data-name">GBP</span>
+              <span class="data-value">{{ dataCurrency.rates.GBP * inputValue | number }}</span>
+            </div>
+            <div class="desc">
+              <div class="text">GBP - British Pound</div>
+              <div class="curr">1 USD = {{ dataCurrency.rates.GBP }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="list-item" *ngFor="let list of pushCurrency; let i = index">
+          <div>
+            <!-- <button (click)="deleteSelectedCurrency()">Delete Selected</button> -->
+            <button class="close" (click)="deleteCurrency(i)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <div class="data-title">
+              <span class="data-name">{{ list.newCurrency }}</span>
+              <span class="data-value">{{ dataCurrency.rates.GBP * inputValue | number }}</span>
+            </div>
+            <div class="desc">
+              <div class="text">{{ list.newCurrency }}</div>
+              <div class="curr">1 USD = {{ dataCurrency.rates.GBP }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="add-more">
+          <div *ngIf="isShow">
+            <button class="btn btn-primary btn-block" (click)="addCurrency()">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add More Currencies
+            </button>
+          </div>
+          <div *ngIf="!isShow">
+            <form class="form-inline" (ngSubmit)="onSubmit()" [formGroup]="currencyForm">
+              <select
+                class="form-control"
+                (change)="changeSymbol($event)"
+                formControlName="currency"
+                [(ngModel)]="newCurrency"
+                (keyup.enter)="newCurrency = ''"
+                name="newCurrency"
+              >
+                <option value="" disabled>Select Currency</option>
+                <option *ngFor="let symbol of getSymbol" [ngValue]="symbol">{{ symbol }}</option>
+              </select>
+              <button class="btn btn-primary" type="submit" [disabled]="newCurrency === ''">
+                <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
+                <span translate>Submit</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
