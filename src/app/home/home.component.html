@@ -17,7 +17,8 @@
         </div>
       </div>
       <div class="list-data" *ngIf="dataCurrency">
-        <div class="list-item">
+        <!-- data demo only -->
+        <!-- <div class="list-item">
           <div>
             <button type="button" class="close">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -61,27 +62,71 @@
               <div class="curr">1 USD = {{ dataCurrency.rates.GBP }}</div>
             </div>
           </div>
-        </div>
-        <div class="list-item" *ngFor="let list of pushCurrency; let i = index">
+        </div> -->
+
+        <div class="list-item" *ngFor="let list of pushCurrency">
           <div>
             <!-- <button (click)="deleteSelectedCurrency()">Delete Selected</button> -->
             <button class="close" (click)="deleteCurrency(i)">
               <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
             <div class="data-title">
-              <span class="data-name">{{ list.newCurrency }}</span>
-              <span class="data-value">{{ dataCurrency.rates.GBP * inputValue | number }}</span>
+              <span class="data-name">{{ list.newObjCurrency.currency }}</span>
+              <span class="data-value">{{ list.newObjCurrency.value * inputValue | number }}</span>
             </div>
             <div class="desc">
-              <div class="text">{{ list.newCurrency }}</div>
-              <div class="curr">1 USD = {{ dataCurrency.rates.GBP }}</div>
+              <div class="text">
+                {{ list.newObjCurrency.currency }} -
+                <span *ngIf="list.newObjCurrency.currency === 'CAD'"> Canada Dollar </span>
+                <span *ngIf="list.newObjCurrency.currency === 'HKD'"> Hongkong Dollar</span>
+                <span *ngIf="list.newObjCurrency.currency === 'ISK'"> Islandia Krona </span>
+                <span *ngIf="list.newObjCurrency.currency == 'PHP'"> Philipina Peso </span>
+                <span *ngIf="list.newObjCurrency.currency == 'DKK'"> Denmark Krona </span>
+                <span *ngIf="list.newObjCurrency.currency == 'HUF'"> Hongaria Forint </span>
+                <span *ngIf="list.newObjCurrency.currency == 'CZK'"> Chezh Koruna </span>
+                <span *ngIf="list.newObjCurrency.currency == 'GBP'"> Pounds sterling </span>
+                <span *ngIf="list.newObjCurrency.currency == 'RON'"> Leu Rumania </span>
+                <span *ngIf="list.newObjCurrency.currency == 'SEK'"> Swedia Krona</span>
+                <span *ngIf="list.newObjCurrency.currency == 'IDR'"> Indonesia Rupiah </span>
+                <span *ngIf="list.newObjCurrency.currency == 'INR'"> India Rupee</span>
+                <span *ngIf="list.newObjCurrency.currency == 'BRL'"> Brasil Real </span>
+                <span *ngIf="list.newObjCurrency.currency == 'RUB'"> Rusia Rubel</span>
+                <span *ngIf="list.newObjCurrency.currency == 'HRK'"> Croasia Kuna</span>
+                <span *ngIf="list.newObjCurrency.currency == 'JPY'"> Japan Yen </span>
+                <span *ngIf="list.newObjCurrency.currency == 'THB'"> Thailand Baht </span>
+                <span *ngIf="list.newObjCurrency.currency == 'CHF'"> Swiss Franc</span>
+                <span *ngIf="list.newObjCurrency.currency == 'EUR'"> Euro </span>
+                <span *ngIf="list.newObjCurrency.currency == 'MYR'"> Malaysia Ringgit </span>
+                <span *ngIf="list.newObjCurrency.currency == 'BGN'"> Bulgaria Lev </span>
+                <span *ngIf="list.newObjCurrency.currency == 'TRY'"> Turki Lira</span>
+                <span *ngIf="list.newObjCurrency.currency == 'CNY'"> China Yuan </span>
+                <span *ngIf="list.newObjCurrency.currency == 'NOK'"> Norwegian Krone</span>
+                <span *ngIf="list.newObjCurrency.currency == 'NZD'"> New Zealand Dollar</span>
+                <span *ngIf="list.newObjCurrency.currency == 'ZAR'"> Afrika Selatan Rand</span>
+                <span *ngIf="list.newObjCurrency.currency == 'USD'"> United States Dollar</span>
+                <span *ngIf="list.newObjCurrency.currency == 'MXN'"> Mexico Peso </span>
+                <span *ngIf="list.newObjCurrency.currency == 'SGD'"> Singapore Dollar </span>
+                <span *ngIf="list.newObjCurrency.currency == 'AUD'"> Australia Dollar </span>
+                <span *ngIf="list.newObjCurrency.currency == 'ILS'"> Israel Shekel</span>
+                <span *ngIf="list.newObjCurrency.currency == 'KRW'"> South Korea Won </span>
+                <span *ngIf="list.newObjCurrency.currency == 'PLN'"> Polandia Zloty</span>
+              </div>
+              <div class="curr">1 USD = {{ list.newObjCurrency.value | number }}</div>
             </div>
           </div>
         </div>
+        <div *ngIf="!pushCurrency.length" class="alert alert-warning text-center">
+          No data. Please add new one first!
+        </div>
         <div class="add-more">
           <div *ngIf="isShow">
-            <button class="btn btn-primary btn-block" (click)="addCurrency()">
-              <i class="fa fa-plus" aria-hidden="true"></i> Add More Currencies
+            <button class="btn btn-success btn-block" (click)="addCurrency()">
+              <span *ngIf="!pushCurrency.length">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add New Currencies
+              </span>
+              <span *ngIf="pushCurrency.length">
+                <i class="fa fa-plus" aria-hidden="true"></i> Add More Currencies
+              </span>
             </button>
           </div>
           <div *ngIf="!isShow">
@@ -89,17 +134,16 @@
               <select
                 class="form-control"
                 (change)="changeSymbol($event)"
-                formControlName="currency"
+                formControlName="getValue"
                 [(ngModel)]="newCurrency"
-                (keyup.enter)="newCurrency = ''"
                 name="newCurrency"
               >
                 <option value="" disabled>Select Currency</option>
-                <option *ngFor="let symbol of getSymbol" [ngValue]="symbol">{{ symbol }}</option>
+                <option *ngFor="let item of getNewValue" [ngValue]="item">{{ item.currency }}</option>
               </select>
-              <button class="btn btn-primary" type="submit" [disabled]="newCurrency === ''">
+              <button class="btn btn-success" type="submit" [disabled]="newCurrency === ''">
                 <i class="fas fa-cog fa-spin" [hidden]="!isLoading"></i>
-                <span translate>Submit</span>
+                <span>Submit</span>
               </button>
             </form>
           </div>

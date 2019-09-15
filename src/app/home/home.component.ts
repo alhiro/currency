@@ -14,13 +14,12 @@ export class HomeComponent implements OnInit {
   dataCurrency: any | undefined;
   getSymbol: any | undefined;
   getCurrency: any | undefined;
+  getNewValue: any | undefined;
+
   symbolForm!: FormGroup;
   inputValue: number = 10;
-  getVal: number;
   isShow: Boolean = true;
   isLoading = false;
-
-  newCurr: any;
 
   newCurrency: string;
   pushCurrency: any;
@@ -53,34 +52,29 @@ export class HomeComponent implements OnInit {
   }
 
   changeSymbol(event: any) {
-    console.log('event ' + event.target.value);
+    // console.log('event ' + event.target.value);
   }
 
   currencyForm = this.formBuilder.group({
-    currency: [this.getSymbol],
-    value: [this.getCurrency]
+    getValue: ''
   });
 
   onSubmit() {
     this.isShow = true;
-    console.log('Currency Name ' + JSON.stringify(this.currencyForm.value));
-    this.newCurr = this.currencyForm.value;
+    // console.log('Currency Name ' + JSON.stringify(this.currencyForm.value));
 
     this.objCurrency = {
-      newCurrency: this.newCurrency,
-      completed: false
+      newObjCurrency: this.newCurrency
     };
     this.pushCurrency.push(this.objCurrency);
     event.preventDefault();
   }
 
-  private Data: any = [];
-  private Val: any = [];
-
   getDataCurrency() {
     this.isLoading = true;
     this.currencyService
       .getBaseCurrency({
+        // select default currency
         currency: 'USD'
       })
       .pipe(
@@ -89,20 +83,27 @@ export class HomeComponent implements OnInit {
         })
       )
       .subscribe((data: any) => {
+        // this for demo manual data
         this.dataCurrency = data;
 
-        let symbol = data['rates'];
-        this.getSymbol = Object.keys(symbol);
-        this.getCurrency = Object.values(symbol);
-        console.log('symbols ' + this.getSymbol);
-        console.log('currency ' + this.getCurrency);
+        // select specific object and separate them
+        let res = data['rates'];
+        this.getSymbol = Object.keys(res);
+        this.getCurrency = Object.values(res);
+        // console.log('symbols ' + this.getSymbol);
+        // console.log('currency ' + this.getCurrency);
 
-        for (let key in symbol) {
-          this.Data.push(key);
-          this.Val.push(symbol[key]);
+        // push new currency base on length and get new value from object
+        let customCurrency = [];
+        for (let i = 0; i < this.getSymbol.length; i++) {
+          let newCustom = {
+            currency: this.getSymbol[i],
+            value: this.getCurrency[i]
+          };
+          customCurrency.push(newCustom);
         }
-
-        type MyArrayType = Array<{ symbols: string; currency: number }>;
+        this.getNewValue = customCurrency;
+        //console.log('newCurrency ' + JSON.stringify(newCurrency));
       });
   }
 }
