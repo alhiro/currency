@@ -26,13 +26,13 @@ describe('CurrencyService', () => {
     httpMock.verify();
   });
 
-  describe('getCurrency', () => {
+  describe('getNewValue', () => {
     it('should return a data from exchangeratesapi', () => {
       // Arrange
       const mockCurrency = { value: 'latest currency' };
 
       // Act
-      const currencySubscription = currencyService.getCurrency({ currency: 'USD' });
+      const currencySubscription = currencyService.getBaseCurrency({ currency: 'USD' });
 
       // Assert
       currencySubscription.subscribe((currency: string) => {
@@ -43,7 +43,7 @@ describe('CurrencyService', () => {
 
     it('should return a string in case of error', () => {
       // Act
-      const currencySubscription = currencyService.getCurrency({ currency: 'USD' });
+      const currencySubscription = currencyService.getBaseCurrency({ currency: 'USD' });
 
       // Assert
       currencySubscription.subscribe((currency: string) => {
