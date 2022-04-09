@@ -34,7 +34,7 @@
     "bootstrap": "^4.1.1",
     "@fortawesome/fontawesome-free": "^5.1.0",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "rxjs": "^6.5.2",
     "zone.js": "^0.9.1"
   },
